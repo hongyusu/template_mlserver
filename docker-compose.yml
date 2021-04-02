@@ -1,0 +1,28 @@
+version: '2.1'
+services:
+    mlserver:
+        build:
+            context: .
+            dockerfile: mlserver/Dockerfile
+            args:
+                - TAG=${PYTHON3_BASE_IMAGE_VERSION}
+        image: mlserver:${TAG}
+        volumes:
+            - ${NOVA_DATA_DIR}/data:/data
+        ports:
+            - "9011:9011"
+        container_name: ctmlserver
+        restart: unless-stopped
+        environment:
+            - DJANGO_ENV=DOCKER${DEPLOYMENT_ENV}
+            - CONFIG_FILE=../utils/configs/config.ini
+        networks:
+            ner_network:
+                ipv4_address: ${ML_SERVER_URL}
+networks:
+    ner_network:
+        driver: bridge
+        ipam:
+            config:
+                - subnet: 10.1.0.0/24
+                  gateway: 10.1.0.1
