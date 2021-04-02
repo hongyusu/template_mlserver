@@ -1,0 +1,250 @@
+{
+	"swagger": "2.0",
+	"info": {
+		"description": "This is the documentation of the REST API in ML server",
+		"version": "2.0.0",
+		"title": "Natural language processing api"
+	},
+	"basePath": "/mlapi/v1/",
+	"tags": [{
+		"name": "ML APIs",
+		"description": "Documents on Machine Learning REST APIs"
+
+	}],
+	"schemes": ["http","https"],
+	"paths": {
+
+		"/service": {
+			"post": {
+				"tags": ["ML APIs"],
+				"summary": "Infer intent from user input",
+				"description": "",
+				"consumes": ["application/json"],
+				"produces": ["application/json"],
+				"parameters": [{
+					"name": "body",
+					"in": "body",
+					"description": "json payload",
+					"required": true,
+					"schema": {
+						"$ref": "#/definitions/Question"
+					}
+				}],
+				"responses": {
+					"201": {
+						"description": "successful operation",
+						"schema": {
+							"$ref": "#/definitions/AnswerV2"
+						}
+					},
+					"400": {
+						"description": "Bad request",
+						"schema": {
+							"$ref": "#/definitions/BadRequestResponse"
+						}
+					},
+					"500": {
+						"description": "Internal error",
+						"schema": {
+							"$ref": "#/definitions/InternalErrorResponse"
+						}
+					},
+					"401": {
+						"description": "Unauthenticated",
+						"schema": {
+							"$ref": "#/definitions/UnauthenticatedResponse"
+						}
+					}
+				}
+
+			}
+		},
+
+	},
+	"definitions": {
+		"BadRequestResponse": {
+			"type": "object",
+			"required": ["error","http_status","error_description","error_reason"],
+			"properties": {
+				"error": {
+					"type": "string"
+				},
+				"error_description": {
+					"type": "string"
+				},
+				"error_reason": {
+					"type": "string"
+				},
+				"http_status": {
+					"type": "number",
+					"format": "int32",
+					"enum": [400]
+				}
+			}
+		},
+		"NotFoundResponse": {
+			"type": "object",
+			"required": ["error","http_status","error_description","error_reason"],
+			"properties": {
+				"error": {
+					"type": "string"
+				},
+				"error_description": {
+					"type": "string"
+				},
+				"error_reason": {
+					"type": "string"
+				},
+				"http_status": {
+					"type": "number",
+					"format": "int32",
+					"enum": [404]
+				}
+			}
+		},
+		"InternalErrorResponse": {
+			"type": "object",
+			"required": ["error","http_status","error_description","error_reason"],
+			"properties": {
+				"error": {
+					"type": "string"
+				},
+				"error_description": {
+					"type": "string"
+				},
+				"error_reason": {
+					"type": "string"
+				},
+				"http_status": {
+					"type": "number",
+					"format": "int32",
+					"enum": [500]
+
+				}
+			}
+		},
+		"NotImplementedResponse": {
+			"type": "object",
+			"required": ["error","http_status","error_description","error_reason"],
+			"properties": {
+				"error": {
+					"type": "string"
+				},
+				"error_description": {
+					"type": "string"
+				},
+				"error_reason": {
+					"type": "string"
+				},
+				"http_status": {
+					"type": "number",
+					"format": "int32",
+					"enum": [501]
+
+				}
+			}
+		},
+		"UnauthenticatedResponse": {
+			"type": "object",
+			"required": ["details"],
+			"properties": {
+				"details": {
+					"type": "string",
+					"default":"Authentication credentials were not provided."
+				}
+			}
+		},
+		"AnswerV2": {
+			"required": ["country", "language", "answer", "module", "elapse","success","ts"],
+
+			"type": "object",
+			"properties": {
+				"language": {
+					"type": "string"
+				},
+				"country":{
+					"type": "string"
+				},
+				"answer": {
+					"type": "array",
+					"items":{
+						"type":"object",
+					        "$ref": "#/definitions/Intentscore",
+                                                "description": "intent - score"
+					},
+					"description":"predicted intent"
+				},
+				"module": {
+					"type": "string"
+				},
+				"elapse": {
+					"type": "string"
+				},
+				"ts": {
+					"type": "string"
+				},
+				"success": {
+					"type": "string"
+				}
+
+			}
+		},
+		"Intentscore": {
+			"required": ["score","intent","rank"],
+
+			"type": "object",
+			"properties": {
+				"score": {
+					"type": "number",
+					"description": "identifier of a certain action for the bot"
+				},
+				"intent": {
+					"type": "string",
+					"description": "identifier of a certain action for the bot"
+				},
+				"rank": {
+					"type": "number",
+					"description": "identifier of a certain action for the bot"
+                                }
+			}
+		},
+
+		"Question": {
+			"required": ["question", "language"],
+			"type": "object",
+			"properties": {
+				"sessionId": {
+					"type": "string",
+					"description": "user or session identifier, the name and restrictions of this property can be updated accordingly",
+					"minLength": 1,
+					"maxLength": 64
+				},
+				"question": {
+					"type": "string",
+					"description": "question to ask bot or key in options the customer chose",
+					"minLength": 1,
+					"maxLength": 1200,
+					"example": "Huomenta"
+				},
+                                "language": {
+					"type": "string",
+					"description": "(Optional) language for debugging em/query, the bot knows the language from the previous conversation.",
+                                        "enum": ["finnish", "swedish", "danish", "norwegian", "english"],
+                                        "default": "finnish",
+					"minLength": 1,
+					"maxLength": 12
+				},
+				"country":{
+					"type": "string",
+					"description":"customer's country",
+                                        "enum": ["fi", "se", "dk", "no"],
+                                        "default": "fi"
+				}
+			}
+		},
+	},
+	"externalDocs": {
+      "description": "Find out more about Nordea Innobot project",
+      "url": "https://aedron.mobi/gitlab/AI/vca"
+    }
+}
