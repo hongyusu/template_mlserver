@@ -225,14 +225,14 @@
 					"minLength": 1,
 					"maxLength": 1200,
 					"example": "Huomenta"
-				},
-                                "language": {
+                },
+                "language": {
 					"type": "string",
 					"description": "(Optional) language for debugging em/query, the bot knows the language from the previous conversation.",
-                                        "enum": ["finnish", "swedish", "danish", "norwegian", "english"],
-                                        "default": "finnish",
+                                        "enum": ["fi", "sv", "da", "no", "en"],
+                                        "default": "fi",
 					"minLength": 1,
-					"maxLength": 12
+					"maxLength": 3
 				},
 				"country":{
 					"type": "string",
@@ -242,6 +242,7 @@
 				}
 			}
 		},
+
 	},
 	"externalDocs": {
       "description": "Find out more about Nordea Innobot project",
