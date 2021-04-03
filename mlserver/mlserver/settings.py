@@ -123,7 +123,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
-STATIC_URL = '/mlapi/resources/'
+STATIC_URL = '/ml/resources/'
 MEDIA_ROOT = 'resources'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "swagger_ui/resources")

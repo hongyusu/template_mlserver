@@ -5,6 +5,6 @@ from . import views
 
 
 urlpatterns = [
-    url(r'^mlapi/swagger', TemplateView.as_view(template_name="index.html"), name='swagger_ui'),
-    url(r'^mlapi/v1/service?$', views.service, name='service'),
+    url(r'^ml/swagger', TemplateView.as_view(template_name="index.html"), name='swagger_ui'),
+    url(r'^ml/v1/service?$', views.service, name='service'),
 ]

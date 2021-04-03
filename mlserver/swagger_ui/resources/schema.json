@@ -5,7 +5,7 @@
 		"version": "2.0.0",
 		"title": "Natural language processing api"
 	},
-	"basePath": "/mlapi/v1/",
+	"basePath": "/ml/v1/",
 	"tags": [{
 		"name": "ML APIs",
 		"description": "Documents on Machine Learning REST APIs"
